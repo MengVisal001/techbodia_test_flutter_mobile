@@ -122,7 +122,9 @@ class CountryModel {
         : null;
   }
 
-  // TODO: country to list
+  // country from list
+  static fromList(List<dynamic> jsonString) => List<CountryModel>.from(
+      jsonString.map((value) => CountryModel.fromJson(value)));
 }
 
 class Name {

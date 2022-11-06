@@ -1,3 +1,4 @@
+import 'package:country/utils/color.dart';
 import 'package:flutter/material.dart';
 
 import 'screen/home_country_screen.dart';
@@ -7,8 +8,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HomeCountry(),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: const HomeCountry(),
+      theme: ThemeData(
+        scaffoldBackgroundColor: AppColors().primary,
+        appBarTheme: AppBarTheme(
+          backgroundColor: AppColors().primary,
+          elevation: .5,
+        ),
+      ),
     );
   }
 }

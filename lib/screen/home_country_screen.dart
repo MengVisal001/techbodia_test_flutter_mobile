@@ -1,3 +1,5 @@
+import 'package:country/utils/icon.dart';
+import 'package:country/utils/text.dart';
 import 'package:flutter/material.dart';
 
 class HomeCountry extends StatefulWidget {
@@ -11,6 +13,20 @@ class HomeCountry extends StatefulWidget {
 class _HomeCountryState extends State<HomeCountry> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(AppTexts().titleApp),
+        actions: <IconButton>[
+          IconButton(
+            icon: AppIcons().search,
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: AppIcons().moreVert,
+            onPressed: () {},
+          ),
+        ],
+      ),
+    );
   }
 }
