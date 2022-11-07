@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  Color primary = HexColor.fromHex('#344955');
+  Color primary = HexColor.fromHex('#2E3336');
+  Color primaryOpacity = HexColor.fromHex('#40484D');
   Color secondary = HexColor.fromHex('#FFFFFF');
+  Color buttonColor = HexColor.fromHex('#EEDDE7');
 }
 
 extension HexColor on Color {
