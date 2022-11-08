@@ -82,7 +82,7 @@ class CountrySearchDelegate extends SearchDelegate {
     if (matchQuery.isEmpty) {
       return Center(
         child: Text(
-          'no data',
+          AppTexts().noData,
           style: TextStyle(
             color: AppColors().secondary,
             fontSize: 18,

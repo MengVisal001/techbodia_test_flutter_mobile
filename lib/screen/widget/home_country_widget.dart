@@ -1,11 +1,11 @@
+import 'package:country/controller/country_controller.dart';
 import 'package:country/model/country_model.dart';
-import 'package:country/screen/home_country_screen.dart';
 import 'package:country/screen/home_country_search.dart';
 import 'package:country/utils/color.dart';
 import 'package:country/utils/text.dart';
 import 'package:flutter/material.dart';
 
-class HomeCountryWidget extends AppTexts {
+class HomeCountryWidget extends AppTexts with CountryController {
   final BuildContext context;
 
   HomeCountryWidget(this.context);
@@ -13,6 +13,46 @@ class HomeCountryWidget extends AppTexts {
   /// title app country
   static Text title() => Text(AppTexts().titleApp,
       style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold));
+
+  /// button action application
+  List<IconButton> buttonActionIcon(List<CountryModel> list) {
+    List<Icon> listIcon = [search, moreVert];
+    return listIcon
+        .map((element) => IconButton(
+              icon: element,
+              onPressed: () {
+                if (element == search) {
+                  showSearch(
+                      context: context, delegate: CountrySearchDelegate(list));
+                } else if (element == moreVert) {
+                  showMenu(
+                    color: primary,
+                    context: context,
+                    position: RelativeRect.fromSize(
+                      Rect.fromCenter(
+                          center: const Offset(0, 1), width: 100, height: 100),
+                      const Size(100, 100),
+                    ),
+                    items: [
+                      PopupMenuItem(
+                        child: TextButton(
+                          onPressed: () {},
+                          child: Text(sortAsc),
+                        ),
+                      ),
+                      PopupMenuItem(
+                        child: TextButton(
+                          onPressed: () {},
+                          child: Text(sortDesc),
+                        ),
+                      )
+                    ],
+                  );
+                }
+              },
+            ))
+        .toList();
+  }
 
   static Widget linearProgressIndicator() => LinearProgressIndicator(
         backgroundColor: AppColors().primaryOpacity,
@@ -26,14 +66,13 @@ class HomeCountryWidget extends AppTexts {
       itemBuilder: (context, index) {
         List<String> listTitle = [
           countryCode,
-          if (itemList[index].name!.nativeName!.ron != null) nativeCountryName,
+          nativeCountryName,
           altSpellings,
           idd
         ];
         List<String> listSubTitle = [
           '${itemList[index].cca2}, ${itemList[index].cca3}',
-          if (itemList[index].name!.nativeName!.ron != null)
-            '${itemList[index].name?.nativeName?.ron?.official}',
+          '${itemList[index].name?.nativeName?.ron?.official}',
           '${itemList[index].altSpellings!.map((e) => e)}',
           '${itemList[index].idd!.root}, ${itemList[index].idd!.suffixes!.map((e) => e)}',
         ];

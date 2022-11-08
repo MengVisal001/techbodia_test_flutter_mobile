@@ -146,13 +146,15 @@ class Name {
 }
 
 class NativeName {
-  // TODO: dynamic map data
   Ron? ron;
 
   NativeName({this.ron});
 
   NativeName.fromJson(Map<String, dynamic> json) {
-    ron = json['ron'] != null ? Ron.fromJson(json['ron']) : null;
+    for (var element in json.values) {
+      ron = Ron.fromJson(element);
+    }
+    
   }
 }
 
