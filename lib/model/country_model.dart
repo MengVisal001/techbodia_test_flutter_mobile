@@ -146,55 +146,49 @@ class Name {
 }
 
 class NativeName {
-  Ron? ron;
+  NameData? nativeNameData;
 
-  NativeName({this.ron});
+  NativeName({this.nativeNameData});
 
+  /// parse dynamic JSON keys
   NativeName.fromJson(Map<String, dynamic> json) {
     for (var element in json.values) {
-      ron = Ron.fromJson(element);
+      nativeNameData = NameData.fromJson(element);
     }
-    
   }
 }
 
-class Ron {
+class NameData {
   String? official;
   String? common;
 
-  Ron({this.official, this.common});
+  NameData({this.official, this.common});
 
-  Ron.fromJson(Map<String, dynamic> json) {
+  NameData.fromJson(Map<String, dynamic> json) {
     official = json['official'];
     common = json['common'];
   }
 }
 
 class Currencies {
-  RON? rON;
+  CurrencyName? currencyName;
 
-  Currencies({this.rON});
+  Currencies({this.currencyName});
 
   Currencies.fromJson(Map<String, dynamic> json) {
-    rON = json['RON'] != null ? RON.fromJson(json['RON']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (rON != null) {
-      data['RON'] = rON!.toJson();
+    for (var element in json.values) {
+      currencyName = CurrencyName.fromJson(element);
     }
-    return data;
   }
 }
 
-class RON {
+class CurrencyName {
   String? name;
   String? symbol;
 
-  RON({this.name, this.symbol});
+  CurrencyName({this.name, this.symbol});
 
-  RON.fromJson(Map<String, dynamic> json) {
+  CurrencyName.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     symbol = json['symbol'];
   }
@@ -220,46 +214,42 @@ class Idd {
 }
 
 class Languages {
-  String? ron;
+  String? name;
 
-  Languages({this.ron});
+  Languages({this.name});
 
   Languages.fromJson(Map<String, dynamic> json) {
-    ron = json['ron'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['ron'] = ron;
-    return data;
+    for (var element in json.values) {
+      name = element;
+    }
   }
 }
 
 class Translations {
-  Ron? ara;
-  Ron? bre;
-  Ron? ces;
-  Ron? cym;
-  Ron? deu;
-  Ron? est;
-  Ron? fin;
+  NameData? ara;
+  NameData? bre;
+  NameData? ces;
+  NameData? cym;
+  NameData? deu;
+  NameData? est;
+  NameData? fin;
   Eng? fra;
-  Ron? hrv;
-  Ron? hun;
-  Ron? ita;
-  Ron? jpn;
-  Ron? kor;
-  Ron? nld;
-  Ron? per;
-  Ron? pol;
-  Ron? por;
-  Ron? rus;
-  Ron? slk;
-  Ron? spa;
-  Ron? swe;
-  Ron? tur;
-  Ron? urd;
-  Ron? zho;
+  NameData? hrv;
+  NameData? hun;
+  NameData? ita;
+  NameData? jpn;
+  NameData? kor;
+  NameData? nld;
+  NameData? per;
+  NameData? pol;
+  NameData? por;
+  NameData? rus;
+  NameData? slk;
+  NameData? spa;
+  NameData? swe;
+  NameData? tur;
+  NameData? urd;
+  NameData? zho;
 
   Translations(
       {this.ara,
@@ -288,30 +278,30 @@ class Translations {
       this.zho});
 
   Translations.fromJson(Map<String, dynamic> json) {
-    ara = json['ara'] != null ? Ron.fromJson(json['ara']) : null;
-    bre = json['bre'] != null ? Ron.fromJson(json['bre']) : null;
-    ces = json['ces'] != null ? Ron.fromJson(json['ces']) : null;
-    cym = json['cym'] != null ? Ron.fromJson(json['cym']) : null;
-    deu = json['deu'] != null ? Ron.fromJson(json['deu']) : null;
-    est = json['est'] != null ? Ron.fromJson(json['est']) : null;
-    fin = json['fin'] != null ? Ron.fromJson(json['fin']) : null;
+    ara = json['ara'] != null ? NameData.fromJson(json['ara']) : null;
+    bre = json['bre'] != null ? NameData.fromJson(json['bre']) : null;
+    ces = json['ces'] != null ? NameData.fromJson(json['ces']) : null;
+    cym = json['cym'] != null ? NameData.fromJson(json['cym']) : null;
+    deu = json['deu'] != null ? NameData.fromJson(json['deu']) : null;
+    est = json['est'] != null ? NameData.fromJson(json['est']) : null;
+    fin = json['fin'] != null ? NameData.fromJson(json['fin']) : null;
     fra = json['fra'] != null ? Eng.fromJson(json['fra']) : null;
-    hrv = json['hrv'] != null ? Ron.fromJson(json['hrv']) : null;
-    hun = json['hun'] != null ? Ron.fromJson(json['hun']) : null;
-    ita = json['ita'] != null ? Ron.fromJson(json['ita']) : null;
-    jpn = json['jpn'] != null ? Ron.fromJson(json['jpn']) : null;
-    kor = json['kor'] != null ? Ron.fromJson(json['kor']) : null;
-    nld = json['nld'] != null ? Ron.fromJson(json['nld']) : null;
-    per = json['per'] != null ? Ron.fromJson(json['per']) : null;
-    pol = json['pol'] != null ? Ron.fromJson(json['pol']) : null;
-    por = json['por'] != null ? Ron.fromJson(json['por']) : null;
-    rus = json['rus'] != null ? Ron.fromJson(json['rus']) : null;
-    slk = json['slk'] != null ? Ron.fromJson(json['slk']) : null;
-    spa = json['spa'] != null ? Ron.fromJson(json['spa']) : null;
-    swe = json['swe'] != null ? Ron.fromJson(json['swe']) : null;
-    tur = json['tur'] != null ? Ron.fromJson(json['tur']) : null;
-    urd = json['urd'] != null ? Ron.fromJson(json['urd']) : null;
-    zho = json['zho'] != null ? Ron.fromJson(json['zho']) : null;
+    hrv = json['hrv'] != null ? NameData.fromJson(json['hrv']) : null;
+    hun = json['hun'] != null ? NameData.fromJson(json['hun']) : null;
+    ita = json['ita'] != null ? NameData.fromJson(json['ita']) : null;
+    jpn = json['jpn'] != null ? NameData.fromJson(json['jpn']) : null;
+    kor = json['kor'] != null ? NameData.fromJson(json['kor']) : null;
+    nld = json['nld'] != null ? NameData.fromJson(json['nld']) : null;
+    per = json['per'] != null ? NameData.fromJson(json['per']) : null;
+    pol = json['pol'] != null ? NameData.fromJson(json['pol']) : null;
+    por = json['por'] != null ? NameData.fromJson(json['por']) : null;
+    rus = json['rus'] != null ? NameData.fromJson(json['rus']) : null;
+    slk = json['slk'] != null ? NameData.fromJson(json['slk']) : null;
+    spa = json['spa'] != null ? NameData.fromJson(json['spa']) : null;
+    swe = json['swe'] != null ? NameData.fromJson(json['swe']) : null;
+    tur = json['tur'] != null ? NameData.fromJson(json['tur']) : null;
+    urd = json['urd'] != null ? NameData.fromJson(json['urd']) : null;
+    zho = json['zho'] != null ? NameData.fromJson(json['zho']) : null;
   }
 }
 

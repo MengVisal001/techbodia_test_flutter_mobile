@@ -1,6 +1,6 @@
 import 'package:country/controller/country_controller.dart';
 import 'package:country/model/country_model.dart';
-import 'package:country/screen/home_country_search.dart';
+import 'package:country/navigation/navigator.dart';
 import 'package:country/utils/color.dart';
 import 'package:country/utils/text.dart';
 import 'package:flutter/material.dart';
@@ -14,54 +14,16 @@ class HomeCountryWidget extends AppTexts with CountryController {
   static Text title() => Text(AppTexts().titleApp,
       style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold));
 
-  /// button action application
-  List<IconButton> buttonActionIcon(List<CountryModel> list) {
-    List<Icon> listIcon = [search, moreVert];
-    return listIcon
-        .map((element) => IconButton(
-              icon: element,
-              onPressed: () {
-                if (element == search) {
-                  showSearch(
-                      context: context, delegate: CountrySearchDelegate(list));
-                } else if (element == moreVert) {
-                  showMenu(
-                    color: primary,
-                    context: context,
-                    position: RelativeRect.fromSize(
-                      Rect.fromCenter(
-                          center: const Offset(0, 1), width: 100, height: 100),
-                      const Size(100, 100),
-                    ),
-                    items: [
-                      PopupMenuItem(
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Text(sortAsc),
-                        ),
-                      ),
-                      PopupMenuItem(
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Text(sortDesc),
-                        ),
-                      )
-                    ],
-                  );
-                }
-              },
-            ))
-        .toList();
-  }
-
   static Widget linearProgressIndicator() => LinearProgressIndicator(
         backgroundColor: AppColors().primaryOpacity,
       );
 
   /// display inform country card
   ///
-  ListView displayCountry(List<CountryModel> itemList) {
+  ListView displayCountry(List<CountryModel> itemList,
+      {ScrollController? scrollController}) {
     return ListView.builder(
+      controller: scrollController,
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       itemBuilder: (context, index) {
         List<String> listTitle = [
@@ -72,10 +34,11 @@ class HomeCountryWidget extends AppTexts with CountryController {
         ];
         List<String> listSubTitle = [
           '${itemList[index].cca2}, ${itemList[index].cca3}',
-          '${itemList[index].name?.nativeName?.ron?.official}',
+          '${itemList[index].name?.nativeName?.nativeNameData?.official}',
           '${itemList[index].altSpellings!.map((e) => e)}',
           '${itemList[index].idd!.root}, ${itemList[index].idd!.suffixes!.map((e) => e)}',
         ];
+
         return Container(
           width: MediaQuery.of(context).size.width,
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -149,7 +112,9 @@ class HomeCountryWidget extends AppTexts with CountryController {
                       Expanded(
                         child: InkWell(
                           borderRadius: BorderRadius.circular(30),
-                          onTap: () {},
+                          onTap: () {
+                            _detailCountry(itemList[index]);
+                          },
                           child: DecoratedBox(
                             decoration: BoxDecoration(
                               color: buttonColor.withOpacity(.45),
@@ -177,5 +142,103 @@ class HomeCountryWidget extends AppTexts with CountryController {
       },
       itemCount: itemList.length,
     );
+  }
+
+  /// dialog detail country
+  ///
+  dynamic _detailCountry(CountryModel countryModel) {
+    List<String> label = [
+      countriesName,
+      countriesCode,
+      countriesIndependent,
+      countriesStatus,
+      countriesUnMember,
+      countriesCurrency,
+      countriesCallingCode,
+      countriesCapital,
+      countriesLanguage,
+      countriesArea,
+      countriesPopulation,
+      countriesTimezones,
+      countriesContinents,
+    ];
+    List<String> value = [
+      countryModel.name!.official!,
+      countryModel.cca2!,
+      countryModel.independent == true ? yes : no,
+      countryModel.status!,
+      countryModel.unMember == true ? yes : no,
+      countryModel.currencies != null
+          ? '${countryModel.currencies!.currencyName!.name!}(${countryModel.currencies!.currencyName!.symbol})'
+          : no,
+      countryModel.idd == null
+          ? no
+          : '${countryModel.idd!.root}, ${countryModel.idd!.suffixes!.map((e) => e)}',
+      countryModel.capital!.map((e) => e).toString(),
+      countryModel.languages!.name!,
+      countryModel.area.toString(),
+      countryModel.population.toString(),
+      countryModel.timezones!.map((e) => e).toString(),
+      countryModel.continents!.map((e) => e).toString(),
+    ];
+    return showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (context) {
+          return SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(8.0),
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Country Detail',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () => MyNavigator(context).pop(),
+                        icon: const Icon(
+                          Icons.close,
+                          size: 30,
+                        ),
+                      )
+                    ],
+                  ),
+                  for (int i = 0; i < label.length; i++)
+                    Row(
+                      children: [
+                        // Text label
+                        Expanded(
+                          child: Text(
+                            label[i],
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        // text value
+                        Expanded(
+                          child: Text(
+                            value[i],
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

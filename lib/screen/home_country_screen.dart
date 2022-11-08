@@ -59,6 +59,8 @@ class _HomeCountryState extends State<HomeCountry>
 
   @override
   void initState() {
+    controller.isLoading = false;
+    controller.currentPage = 0;
     getAllCountry();
     super.initState();
   }
